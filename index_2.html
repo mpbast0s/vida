@@ -1,0 +1,147 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+.container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: .3s ease;
+  transition: .3s ease;
+}
+
+.container:hover .overlay {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h2>Image Hover Fullscreen Zoom</h2>
+<p>Pressione e segure o mouse sobre a imagem para ver o efeito de zoom contínuo.</p>
+
+<div class="container" onmousedown="pressAndHold()" onmouseup="releaseMouse()">
+  <img src="https://media.gqmagazine.fr/photos/63516081c75713547ee1f7bc/16:9/w_2560%2Cc_limit/32LQ3UR-highres.jpg" alt="Avatar" class="image">
+  <div class="overlay">
+    <div class="text">Hello World</div>
+    <img src="img_avatar1.png" alt="Avatar" class="image">
+  </div>
+</div>
+
+<script>
+var isPressed = false;
+var images = ["img_avatar1.png", "img_avatar2.png", "https://www.nationalgeographic.com.es/medio/2022/07/12/quinteto-de-stephan_ec9d4487_2000x1917.jpg"];
+var index = 0;
+
+function pressAndHold() {
+  isPressed = true;
+  document.querySelector('.overlay').classList.add('transition');
+  changeImage();
+}
+
+function releaseMouse() {
+  isPressed = false;
+  document.querySelector('.overlay').classList.remove('transition');
+  setTimeout(function() {
+    if (!isPressed) {
+      document.querySelector('.overlay').classList.remove('scale');
+    }
+  }, 300);
+}
+
+function changeImage() {
+  var img = document.querySelector('.overlay img');
+  img.src = images[index];
+  index = (index + 1) % images.length; // Circularmente troca entre as imagens
+  if (isPressed) {
+    setTimeout(changeImage, 300); // Repete a troca de imagem a cada 300 milissegundos
+  }
+}
+</script>
+
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Efeito Máquina de Escrever</title>
+<style>
+  #texto {
+    font-family: monospace;
+    font-size: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: .15em solid black;
+    padding-right: 10px;
+    animation: escrever 2s steps(40, end);
+  }
+
+  @keyframes escrever {
+    from { width: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="texto">
+  Texto sendo digitado...
+</div>
+
+<script>
+  var textoCompleto = "Este é um exemplo de texto que está sendo digitado como se fosse uma máquina de escrever.";
+  var textoParcial = "";
+  var index = 0;
+  var velocidade = 50; // Velocidade em milissegundos (quanto menor, mais rápido)
+
+  function escreverTexto() {
+    if (index < textoCompleto.length) {
+      textoParcial += textoCompleto.charAt(index);
+      document.getElementById("texto").innerHTML = textoParcial;
+      index++;
+      setTimeout(escreverTexto, velocidade);
+    }
+  }
+
+  escreverTexto();
+</script>
+
+</body>
+</html>

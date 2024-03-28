@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Extended+Text&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Libre+Barcode+39+Extended+Text&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kalnia:wght@100..700&family=Libre+Barcode+128+Text&family=Libre+Barcode+39+Extended+Text&display=swap"
+        rel="stylesheet">
+    <title>Minha Página Pessoal</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            scroll-behavior: smooth;
+            font-family: "Kalnia", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            /* Adicionado overflow para esconder a linha fora da viewport */
+        }
+
+        .event {
+            width: 100%;
+            height: 100vh;
+            background-color: #f9f9f9;
+            padding: 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-margin-top: 50px;
+            position: relative;
+            z-index: -3;
+
+        }
+
+        .event:nth-child(odd) {
+            background-color: #e0817c;
+            background-color: rgba(0, 0, 0, 0);
+            /* Vermelho escuro */
+            color: #000;
+            /* Texto branco */
+            transform: rotate(2deg);
+        }
+
+        .event:nth-child(even) {
+            background-color: #be9b7b;
+            color: #000;
+            /* Bege */
+            transform: rotate(-2deg);
+        }
+
+        .date {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            max-width: 500px;
+            z-index: 1;
+        }
+
+        .description {
+            font-size: 18px;
+            color: white;
+            max-width: 500px;
+            text-align: left;
+            z-index: 1;
+            color: #000;
+
+        }
+
+        .image-container {
+            width: 225px;
+            height: 225px;
+            padding: 30px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            transform: rotate(15deg);
+            z-index: 2;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10%;
+            z-index: 2;
+        }
+
+        .connector {
+            position: absolute;
+            /* Alterado para absolute */
+            left: 7%;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background-color: #47201e;
+            ;
+            /* Preto */
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .traco {
+            position: absolute;
+            /* Alterado para absolute */
+            left: 15%;
+            top: 50%;
+            bottom: 0;
+            width: 10px;
+            height: 50px;
+            background-color: white;
+            /* Preto */
+            z-index: 0;
+            transform: rotate(90deg);
+            border-radius: 20%;
+
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: #4b1411;
+            color: #fff;
+            padding-top: 80px;
+            display: block;
+            flex-direction: column;
+            align-items: center;
+
+            /* Fixa a barra lateral no topo */
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+
+            width: 250px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .sidebar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            margin-bottom: 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s ease-in-out;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #702623;
+        }
+
+        .content {
+            flex: 3;
+            padding: 20px;
+            margin-left: 250px;
+            /* Same as the width of the sidenav */
+        }
+
+        #telaescura {
+            height: 100%;
+            width: 100%;
+            background-color: rgb(0, 0, 0);
+            /* Cor preta com 50% de opacidade */
+            opacity: 0.75;
+            position: absolute;
+            z-index: -1;
+            /* Coloca a tela escura atrás do texto */
+            margin: -25px;
+        }
+
+        .hero-image {
+            content: '';
+            background-image: url("img_1.jpg");
+            background-color: #cccccc;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: fixed;
+            margin: -30px;
+            padding: 25px;
+            filter: grayscale(0%);
+            align-items: left;
+            align-content: flex-start;
+        }
+
+        #texto {
+            font-family: monospace;
+            font-size: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid black;
+            padding-right: 10px;
+            color: white;
+            position: relative;
+            /* Certifique-se de que o texto tenha uma posição definida */
+            z-index: 1;
+            /* Coloca o texto na frente da tela escura */
+        }
+
+        @keyframes escrever {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            height: 100%;
+        }
+
+        h2 {
+            color: white;
+            font-family: "Libre Barcode 128 Text", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 70px;
+        }
+
+        p {
+            color: #333;
+        }
+
+        .imagem-secao {
+            margin-top: 50px;
+            text-align: center;
+            display: none;
+        }
+
+        .imagem-secao img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .contact-info {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.active .contact-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .social-links {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.active .social-links {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <center><img src="profile.png" alt="Minha Foto" class="profile-pic" id="profile-pic"> </center>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="mostrarSecao('sobre')">Sobre Mim</a></li>
+                    <li><a href="#" onclick="mostrarSecao('portfolio')">Linha do Tempo</a></li>
+                    <li><a href="#" onclick="mostrarSecao('contato')">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content">
+
+            <section id="sobre" class="section active">
+                <div class="hero-image">
+                    <div id="telaescura"></div>
+                    <h2>Sobre Mim</h2>
+
+                    <div id="texto">
+                        Texto sendo digitado...
+                    </div>
+
+                    <div class="imagem-secao">
+
+
+                        <table style="padding: 20px; margin-top: -50px;">
+                            <tr>
+                                <th style="width: 50%;">
+                                    <p style="color:white; margin-top: -50px; font-size: 25px; text-align: left;">
+                                        Entusiasta da tecnologia e apaixonada por resolver problemas complexos, estou
+                                        fazendo essa matéria para melhorar minhas habilidades de webdev
+                                    </p>
+                                </th>
+                                <th>
+                                    <div class="image-container" style="filter: grayscale(0%);">
+                                        <img src="profile.jpg" alt="Imagem Ensino Médio">
+                                    </div>
+                                </th>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="portfolio" class="section">
+                <h2 style="color:black; margin-top: 5px;">Linha doTempo</h2>
+                <p style="color:black; margin-top: -50px;">Como foi minha vida</p>
+                <div class="timeline">
+                    <div class="event" id="ensino-medio">
+                        <div>
+
+                            <div class="date">Ensino Médio</div>
+                            <div class="image-container">
+                                <img src="https://i.pinimg.com/564x/7d/0d/ef/7d0def48f448b0ca4ff6206389496e2f.jpg"
+                                    alt="Imagem Ensino Médio">
+                            </div>
+                            <div class="title">Técnico em Informática</div>
+                            <div class="description">
+                                <b>2018 - 2020 </b>
+                                <br>
+                                Descrição detalhada do evento no ensino médio.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event" id="faculdade">
+                        <div>
+
+                            <div class="date">Faculdade</div>
+                            <div class="image-container">
+                                <img src="img_1.jpg" alt="Imagem Faculdade">
+                            </div>
+                            <div class="title">Estudante de Engenharia Elétrica </div>
+                            <div class="description">
+                                <b>2021 - atualmente </b>
+                                <br>
+                                EStou no 7º período do curso de Engenharia Elétrica com enfâse em Eletrônica e Telecom e
+                                não vejo a
+                                hora de ser engenheira, (e falar para as pessoas que sou engenheira)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event" id="projeto-extensao">
+
+                        <div>
+                            <div class="date">Projeto de Extensão</div>
+                            <div class="image-container">
+                                <img src="https://media.licdn.com/dms/image/D4D0BAQGrlpQ34WfdtA/company-logo_200_200/0/1692720895301/pet_engenharia_eltrica_ufpr_logo?e=2147483647&v=beta&t=ITxipsnh1M1EQamKNC0w9HYF0VzW2Dhb7OqpaQtD1os"
+                                    alt="Imagem Projeto de Extensão">
+                            </div>
+                            <div class="title">PET Elétrica ⚡</div>
+                            <div class="description">
+                                <b>2023 - atualmente </b>
+                                <br>
+                                Participei do projeto PET ELétrica no qual aprendi muito sobre administração, alem de
+                                habilidades
+                                interespessoais para comunicação e apresentação de trabalhos.
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="event" id="projeto-extensao">
+
+                        <div>
+                            <div class="date">Projeto de Extensão</div>
+                            <div class="image-container">
+                                <img src="img_2.png" alt="Imagem Projeto de Extensão">
+                            </div>
+                            <div class="title">APPSetor</div>
+                            <div class="description">
+                                <b>2023 - atualmente </b>
+                                <br>
+                                Participei do projeto app do Setor que pretende criar um aplicativo para todos os
+                                estudantes ufpr de
+                                forma a facilitar a vida da comunidade acadêmica.
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Linha vertical -->
+                    <div class="connector"></div>
+                </div>
+            </section>
+
+            <section id="contato" class="section">
+                <h2 style="color:black; margin-top: 5px;">Contato</h2>
+                <p>Queremos estar mais perto de você! Não hesite em nos contatar para qualquer dúvida, feedback ou apenas para dizer olá.</p>
+                <ul class="contact-info">
+                    <li><strong>Endereço:</strong> Rua das Flores, 123 - Centro, Cidade</li>
+                    <li><strong>Telefone:</strong> (00) 1234-5678</li>
+                    <li><strong>Email:</strong> contato@seudomínio.com</li>
+                    <li><strong>Redes Sociais:</strong>
+                        <ul class="social-links">
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">Instagram</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Vamos transformar suas ideias em realidade juntos!</p>
+            </section> 
+
+
+        </div>
+    </div>
+
+    <script>
+        var textoCompleto = "Olá, meu nome é Maria.";
+        var textoParcial = "";
+        var index = 0;
+        var velocidade = 100; // Velocidade em milissegundos (quanto menor, mais rápido)
+
+        function escreverTexto() {
+            if (index < textoCompleto.length) {
+                textoParcial += textoCompleto.charAt(index);
+                document.getElementById("texto").innerHTML = textoParcial;
+                index++;
+                setTimeout(escreverTexto, velocidade);
+            } else {
+                // Mostra a imagem após o texto ser totalmente escrito
+                document.querySelector('.imagem-secao').style.display = 'block';
+            }
+        }
+
+        escreverTexto();
+
+        function mostrarSecao(secao) {
+            var secoes = document.querySelectorAll('.section');
+            secoes.forEach(function (el) {
+                el.classList.remove('active');
+            });
+            document.getElementById(secao).classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kalnia:wght@100..700&family=Libre+Barcode+128+Text&family=Libre+Barcode+39+Extended+Text&display=swap"
+        rel="stylesheet">
+    <title>Linha do Tempo</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            scroll-behavior: smooth;
+            font-family: "Kalnia", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-variation-settings:
+                "wdth" 100;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            /* Adicionado overflow para esconder a linha fora da viewport */
+        }
+
+        .event {
+            width: 100%;
+            height: 100vh;
+            background-color: #f9f9f9;
+            padding: 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-margin-top: 50px;
+            position: relative;
+            z-index: -3;
+        }
+
+        .event:nth-child(odd) {
+            background-color: #4b1411;
+            /* Vermelho escuro */
+            color: #fff;
+            /* Texto branco */
+        }
+
+        .event:nth-child(even) {
+            background-color: #be9b7b;
+            /* Bege */
+        }
+
+        .date {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            max-width: 500px;
+            z-index: 1;
+        }
+
+        .description {
+            font-size: 18px;
+            color: white;
+            max-width: 500px;
+            text-align: left;
+            z-index: 1;
+        }
+
+        .image-container {
+            width: 225px;
+            height: 225px;
+            padding: 30px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            transform: rotate(15deg);
+            z-index: 2;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            border-radius: 10%;
+            z-index: 2;
+        }
+
+        .connector {
+            position: absolute;
+            /* Alterado para absolute */
+            left: 7%;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background-color: white;
+            /* Preto */
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .traco {
+            position: absolute;
+            /* Alterado para absolute */
+            left: 15%;
+            top: 50%;
+            bottom: 0;
+            width: 10px;
+            height: 50px;
+            background-color: white;
+            /* Preto */
+            z-index: 0;
+            transform: rotate(90deg);
+            border-radius: 20%;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="timeline">
+        <div class="event" id="ensino-medio">
+            <div>
+                <div class="traco"></div>
+                <div class="date">Ensino Médio</div>
+                <div class="image-container">
+                    <img src="img_1.jpg" alt="Imagem Ensino Médio">
+                </div>
+                <div class="title">Técnico em Informática</div>
+                <div class="description">
+                    <b>2018 - 2020 </b>
+                    <br>
+                    Descrição detalhada do evento no ensino médio.
+                </div>
+            </div>
+        </div>
+
+        <div class="event" id="faculdade">
+            <div>
+                <div class="traco"></div>
+                <div class="date">Faculdade</div>
+                <div class="image-container">
+                    <img src="img_1.jpg" alt="Imagem Faculdade">
+                </div>
+                <div class="title">Estudante de Engenharia Elétrica </div>
+                <div class="description">
+                    <b>2021 - atualmente </b>
+                    <br>
+                    EStou no 7º período do curso de Engenharia Elétrica com enfâse em Eletrônica e Telecom e não vejo a                                  
+                    hora de ser engenheira, (e falar para as pessoas que sou engenheira)
+                </div>
+            </div>
+        </div>
+
+        <div class="event" id="projeto-extensao">
+            <div class="traco"></div>
+            <div>
+                <div class="date">Projeto de Extensão</div>
+                <div class="image-container">
+                    <img src="img_1.jpg" alt="Imagem Projeto de Extensão">
+                </div>
+                <div class="title">PET Elétrica ⚡</div>
+                <div class="description">
+                    <b>2023 - atualmente </b>
+                    <br>
+                    Participei do projeto PET ELétrica no qual aprendi muito sobre administração, alem de habilidades
+                    interespessoais para comunicação e apresentação de trabalhos.
+                </div>
+
+            </div>
+        </div>
+        <div class="event" id="projeto-extensao">
+            <div class="traco"></div>
+            <div>
+                <div class="date">Projeto de Extensão</div>
+                <div class="image-container">
+                    <img src="img_1.jpg" alt="Imagem Projeto de Extensão">
+                </div>
+                <div class="title">APPSetor</div>
+                <div class="description">
+                    <b>2023 - atualmente </b>
+                    <br>
+                    Participei do projeto app do Setor que pretende criar um aplicativo para todos os estudantes ufpr de
+                    forma a facilitar a vida da comunidade acadêmica.
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Linha vertical -->
+        <div class="connector"></div>
+    </div>
+    <script>
+
+    </script>
+
+
+</body>
+
+</html>

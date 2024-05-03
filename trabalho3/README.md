@@ -31,37 +31,13 @@ ___
 
 A classe `Canvas` é responsável por gerenciar e desenhar linhas em um elemento canvas HTML usando o contexto 2D. Abaixo estão as descrições das funções disponíveis nesta classe:
 
-### `constructor(canvas, ctx, polysize = 80)`
+### `constructor(canvas, ctx)`
 
 Construtor da classe Canvas. Recebe como parâmetros o elemento canvas, o contexto 2D e opcionalmente o tamanho dos polígonos a serem desenhados.
-
-### `criaLinha(coord1, coord2)`
-
-Adiciona uma nova linha ao canvas e retorna o objeto linha criado. Os parâmetros `coord1` e `coord2` são objetos com campos `x` e `y` representando as coordenadas iniciais e finais da linha, respectivamente.
 
 ### `desenha()`
 
 Desenha todas as linhas armazenadas na classe Canvas no canvas HTML. Limpa o canvas antes de desenhar as linhas.
-
-### `limpa()`
-
-Apaga todo o conteúdo do canvas, removendo todas as linhas desenhadas.
-
-### `divideLinha(coord, linha)`
-
-Cria uma nova linha dividindo uma linha existente. Recebe como parâmetros as coordenadas `coord` onde a linha será dividida e a linha original `linha`. Retorna a nova linha criada.
-
-### `obtemLinha(mouse_event)`
-
-Obtém a linha que está na posição do clique do mouse. Recebe como parâmetro o evento do mouse `mouse_event`. Retorna a linha encontrada ou `null` se nenhuma linha for encontrada.
-
-### `atualizaCores(cor)`
-
-Define a cor de todas as linhas armazenadas na classe. Recebe como parâmetro a cor `cor` a ser definida para as linhas.
-
-### `criarPoligono(lados)`
-
-Cria as linhas de um polígono com o número dado de lados. Recebe como parâmetro o número de lados `lados` do polígono. Retorna nada se o número de lados não for válido.
 
 ## Classe `Linha`
 

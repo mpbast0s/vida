@@ -2,7 +2,7 @@
 
 Este projeto consiste em um aplicativo web que permite ao usuário interagir com retas e polígonos no canvas. Abaixo está a descrição das funcionalidades principais:
 ___
-Feito por: Maria paula Bastos 
+Feito por: Maria Paula Bastos 
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 # Classes
 
-## Descrição das Funções da Classe Canvas
+## Classe `Canvas`
 
 A classe `Canvas` é responsável por gerenciar e desenhar linhas em um elemento canvas HTML usando o contexto 2D. Abaixo estão as descrições das funções disponíveis nesta classe:
 

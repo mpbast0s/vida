@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="pt_BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TRABALHO 3: Processador de retas e polígonos</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript" src="./Canvas.js"></script>
+    <script type="text/javascript" src="./Linha.js"></script>
+    <style>
+        canvas {
+            border: 5px solid rgb(151, 130, 130);
+            border-radius: 20px;
+            background-color: #c70213;
+            background-color: #f5facd;
+        }
+
+        body {
+            height: 100vh;
+            /* Define a altura do corpo como 100% da altura da janela de visualização */
+            display: flex;
+            /* Usa o modelo de layout flexível */
+            justify-content: center;
+            /* Centraliza o conteúdo horizontalmente */
+            align-items: center;
+            /* Centraliza o conteúdo verticalmente */
+            text-align: center;
+            /* Centraliza o texto */
+            position: relative;
+            background-color: #f0f0f0;
+            /* Mantém a posição relativa para posicionamento de elementos filhos */
+        }
+
+
+        #customers {
+            width: 600px;
+            margin: auto;
+            /* Para centralizar a tabela */
+        }
+
+        #customers td {
+            width: 25%;
+            /* Definindo a largura das células da tabela */
+        }
+
+        #sidesInput {
+            width: 80%;
+            align-self: right;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+        <table>
+            <tr>
+                <h1 style="text-align: right; font-size: 12vh;"> Processador de retas e polígonos </h1>
+            </tr>
+            <tr style="text-align: right;">
+                <br>
+
+                <h6 style="text-align: right; font-size: 5vh;">
+                    <span>Descrição: <a href="https://github.com/mpbast0s/vida/blob/main/README.md"><u>Clique
+                                aqui</u></a></span>
+                </h6>
+
+            </tr>
+
+        </table>
+    </div>
+    <div id="canvasDiv">
+        <canvas id="canvas" width="500" height="400" style="cursor: pointer;"></canvas>
+        <form style="margin-top: 20px;">
+            <div class="row align-items-center">
+                <table id="customers">
+                    <tr>
+
+
+                        <div>
+
+                            <td>
+                                <input type="range" id="sidesInput" min="3" max="10" value="3">
+                                <span id="sidesValue">3</span> lados
+                                <div id="aviso" style="color: red; margin-top: 10px; display: none;">Valor não
+                                    permitido! lados =8</div>
+
+
+                            </td>
+                        </div>
+                        <td>
+                            <div class="col-auto">
+                                <button type="button" id="botaoCriar" class="btn btn-primary">Criar forma</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row justify-content-center align-items-center" style="margin-top: 0px;">
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger" id="cleanButton">Apagar tudo</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="color" id="colorPicker" value="#c70213">
+
+                        </td>
+                    <tr>
+                        <td>
+                            <input type="range" id="sizeInput" min="20" max="100" value="80">
+                            <span id="sizeValue">80</span> tamanho
+                        </td>
+                        <td>
+                            <input type="range" id="xInput" min="0" max="500" value="250">
+                            x_coordenada: <span id="xValue"> 250 </span>
+                        </td>
+                        <td>
+                            <input type="range" id="yInput" min="20" max="400" value="200">
+                            y_coordenada: <span id="yValue">200</span>
+                        </td>
+                    </tr>
+
+            </div>
+
+            </tr>
+            </table>
+            <br>
+
+
+        </form>
+        <script type="text/javascript">
+
+
+
+
+            // Adiciona um ouvinte de evento para detectar alterações no color picker
+            var COR_PADRAO = '#c70213';
+            var TAM = 80;
+            const sizeInput = document.getElementById("sizeInput");
+            sizeInput.addEventListener("input", function () {
+                TAM = parseInt(sizeInput.value);
+                sizeValue.textContent = TAM;
+            });
+
+            var X_posicao = 250;
+            const xInput = document.getElementById("xInput");
+            xInput.addEventListener("input", function () {
+                X_posicao = parseInt(xInput.value);
+                xValue.textContent = X_posicao;
+                console.log("coord: " + X_posicao)
+            });
+
+            var Y_posicao = 200;
+            const yInput = document.getElementById("yInput");
+            yInput.addEventListener("input", function () {
+                Y_posicao = parseInt(yInput.value);
+                yValue.textContent = Y_posicao;
+                console.log("coord: " + Y_posicao)
+            });
+
+            const colorPicker = document.getElementById("colorPicker");
+            colorPicker.addEventListener("change", function () {
+                COR_PADRAO = colorPicker.value;
+                //linhaCor = colorPicker.value; // Atualiza a cor da linha para a cor selecionada no color picker
+            });
+
+
+            // características das linhas: 
+            //cores padrões:
+            const COR_SELECAO = '#000';
+            //const COR_PADRAO = '#c70213';
+            const CANVAS_E = document.getElementById("canvas");
+            const CTX = CANVAS_E.getContext("2d");
+            CTX.lineWidth = 6; //tamanho  
+            CTX.lineCap = "BUTT"; // formato da ponta
+            CTX.strokeStyle = '#c70213';
+
+            //variáveis iniciais - 
+            const CANVAS = new Canvas(CANVAS_E, CTX);
+            var acao = 0; // 0 => move ponta[0], 1 => move ponta[1], 2 => move linha toda
+            var coord_inicial, pos_inicial;
+            const linhas_acao = [];
+
+            //CANVAS.linhas = []; // Array para armazenar as linhas desenhadas no canvas
+            //----------------------------------------------------------------------------------
+            //funções:
+            function criaLinha(coord1, coord2) {
+                var linha = new Linha(coord1, coord2);
+                CANVAS.linhas.push(linha);
+                console.log("criou")
+                console.log(coord1)
+                return linha;
+
+            }
+
+            // Define a cor de todas as linhas armazenadas
+            function atualizaCor(cor) {
+                for (var l of CANVAS.linhas) { // Itera sobre todas as linhas
+                    l.cor = cor; // Define a cor da linha
+                }
+            }
+
+            // Obtém a linha que está na posição do clique do mouse
+            // Caso não seja encontrada nenhuma linha, retorna null
+            function getLine(mouse_event) {
+                for (var l of CANVAS.linhas) { // Itera sobre todas as linhas
+                    if (l.mouseSobrepoe(mouse_event, CTX)) { // Verifica se o clique do mouse está sobre a linha
+                        return l; // Retorna a linha encontrada
+                    }
+                }
+                return null; // Retorna null se nenhuma linha for encontrada
+            }
+
+            // Cria uma nova linha dividindo uma linha existente
+            // coord é um objeto com campos x e y e linha uma Linha
+            // Retorna a nova linha criada
+            function separaLine(coord, linha) {
+                var nova_linha = criaLinha(coord, linha.coords[1]); // Cria uma nova linha
+                linha.atualizaCoords(coord, linha.coords[0]); // Atualiza as coordenadas da linha original
+                return nova_linha; // Retorna a nova linha
+                console.log("função : divide")
+            }
+
+            // cria uma linha inicial 
+            //ponto do meio:
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            criaLinha({ x: centerX - 100, y: centerY }, { x: centerX + 100, y: centerY });
+
+            CANVAS.desenha();
+
+
+
+            // remover a ação de abrir o menu do navegador no canvas
+            CANVAS_E.addEventListener("contextmenu", e => e.preventDefault());
+            // captura o movimento do mouse no canvas
+            CANVAS_E.addEventListener("mousemove", function (e) {
+                if (e.buttons > 2) return; // ação não interessa
+                // não possui botão pressionado, então só faz higlight da linha
+                if (e.buttons == 0) {
+                    atualizaCor(COR_PADRAO);
+                    var linha = getLine(e);
+                    if (linha != null) {
+                        CANVAS_E.style.cursor = "grab";
+                        linha.cor = COR_SELECAO;
+                    } else {
+                        CANVAS_E.style.cursor = "pointer";
+                    }
+                    CANVAS.desenha();
+                    return;
+                }
+
+
+                const coord = { x: e.offsetX, y: e.offsetY };
+                // move a primeira ponta da linha para a posição do mouse
+                if (acao == 0) {
+                    for (const linha of linhas_acao) {
+                        linha.atualizaCoords(coord, linha.coords[1]);
+                    }
+                }
+                // move a segunda ponta da linha para a posição do mouse
+                if (acao == 1) {
+                    for (const linha of linhas_acao) {
+                        linha.atualizaCoords(linha.coords[0], coord);
+                    }
+                }
+                // move toda a linha para uma posição relativa à sua inicial
+                if (acao == 2) {
+                    for (const linha of linhas_acao) {
+                        let coord1 = {
+                            x: (coord.x - coord_inicial.x) + pos_inicial[0].x,
+                            y: (coord.y - coord_inicial.y) + pos_inicial[0].y
+                        };
+                        let coord2 = {
+                            x: (coord.x - coord_inicial.x) + pos_inicial[1].x,
+                            y: (coord.y - coord_inicial.y) + pos_inicial[1].y
+                        };
+                        linha.atualizaCoords(coord1, coord2);
+                    }
+                }
+
+                CANVAS.desenha();
+            });
+
+            // captura a ação de clique
+            CANVAS_E.addEventListener("mousedown", function (e) {
+                if (e.buttons > 2) return; // ação não interessa
+
+                var linha = getLine(e);
+                linhas_acao.length = 0;
+                if (!linha) return;
+
+                const coord = { x: e.offsetX, y: e.offsetY };
+                linha.cor = COR_SELECAO;
+                // clique esquerdo
+                if (e.buttons == 1) {
+                    CANVAS_E.style.cursor = "grabbing";
+                    // seleciona a linha a ser movida e qual tipo de acao
+                    acao = linha.canto(coord);
+                    if (acao == 2) {
+                        coord_inicial = coord;
+                        pos_inicial = linha.coords;
+                    }
+                    linhas_acao.push(linha);
+                } else {
+                    CANVAS_E.style.cursor = "text";
+                    // divide a linha em 2 e "seleciona" ambas para a açõo
+                    // de mové-las (até se soltar o clique)
+                    const OFFSET_AMOUNT = 5;
+                    let coord_des = { x: e.offsetX + OFFSET_AMOUNT, y: e.offsetY + OFFSET_AMOUNT };
+                    nova_linha = separaLine(coord, linha);
+                    nova_linha.cor = COR_SELECAO;
+                    acao = 0;
+                    linhas_acao.push(linha);
+                    linhas_acao.push(nova_linha);
+                }
+            });
+
+            // captura a ação de "soltar" do mouse
+            CANVAS_E.addEventListener("mouseup", function (e) {
+                // redefine tudo para o "padrão"
+                CANVAS_E.style.cursor = "pointer";
+                linhas_acao.length = 0;
+                acao = -1;
+                atualizaCor(COR_PADRAO);
+                CANVAS.desenha();
+            });
+
+
+            // ---------------------------- eventos dos botões ----------------------------
+            // criar polígonos
+
+            const aviso = document.getElementById('aviso');
+            const sidesInput = document.getElementById("sidesInput");
+            sidesInput.addEventListener("input", function () {
+                const sides = parseInt(sidesInput.value);
+                sidesValue.textContent = sides;
+                if (sides > 8) {
+                    aviso.style.display = 'block'; // Exibe o aviso
+                    //this.disabled = true; // Desabilita o range
+                    //setTimeout(this.disabled = false, 10000);
+                    //this.disabled = false; // Desabilita o range
+                    sidesInput.value = 8;
+                } else {
+                    aviso.style.display = 'none'; // Esconde o aviso se o valor for permitido
+
+                    this.disabled = false; // Desabilita o range
+
+                }
+            });
+
+
+            const botaoCriar = document.getElementById("botaoCriar");
+            botaoCriar.addEventListener("click", function () {
+
+                let lados = parseInt(sidesInput.value);
+
+                // Posições na diagonal central do canvas
+                const posX = X_posicao;
+                const posY = Y_posicao;
+
+                for (let i = 0; i < lados; i++) { // Loop para criar as linhas do polígono
+                    let coord1 = {
+                        x: posX + TAM * Math.cos(i * 2 * Math.PI / lados),
+                        y: posY + TAM * Math.sin(i * 2 * Math.PI / lados),
+                    };
+                    let coord2 = {
+                        x: posX + TAM * Math.cos((i + 1) * 2 * Math.PI / lados),
+                        y: posY + TAM * Math.sin((i + 1) * 2 * Math.PI / lados),
+                    };
+                    criaLinha(coord1, coord2); // Cria uma linha do polígono
+                }
+                CANVAS.desenha(); // Desenha o polígono
+
+
+
+            });
+
+            // apagar polígonos
+            const cleanButton = document.getElementById("cleanButton");
+            // Apaga todo o conteúdo do canvas e zera as linhas
+            cleanButton.addEventListener("click", function () {
+                CTX.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas
+                CANVAS.linhas.length = 0; // Zera o array de linhas
+            });
+
+        </script>
+</body>
+
+</html>

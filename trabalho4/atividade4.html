@@ -192,10 +192,25 @@
 	<!-- Conteúdo principal (direita) -->
 	<section id="menu">
 		<h1>Visualizeitor</h1>
+		<h6>Visualizador de matérias por alunos, feito por: Maria Paula Bastos - 20212762</h6>
+		<p style="font-size:12px">
+
+			O objetivo do projeto é desenvolver um aplicativo web usando HTML, JavaScript e jQuery para visualizar a
+			grade curricular de alunos de qualquer curso. As características
+			específicas de cada disciplina foram coloridas com base na
+			situação da última matrícula do aluno (aprovado em verde, reprovado em vermelho, matriculado em azul,
+			equivalência em amarelo, não cursado em branco e em cinza trancado).
+		<ul style="font-size:12px">
+			<li> Ao clicar com o botão esquerdo, aparece os dados da última vez que cursou a disciplina</li>
+			<li>Quando o usuário clicar no botão direito, deve aparecer todo o histórico do aluno *naquela disciplina*.
+			</li>
+		</ul>
+
+		</p>
 
 		<!-- upload de arquivo -->
 		<form id="upload-arquivo" method="POST" enctype="multipart/form-data">
-			<label for="arquivo">Selecione o arquivo de alunos: </label>
+			<label for="arquivo"><b>Selecione o arquivo de alunos: </b></label>
 			<br>
 			<input id="arquivo" name="arquivo" type="file" accept=".xml">
 			<input type="submit" class="btn btn-primary" value="Carregar">
@@ -203,7 +218,7 @@
 		</form>
 		<!-- Seletor -->
 		<div class="col container" style="padding: 0;"></div>
-		<label>Selecione um dos alunos a partir do GRR:
+		<label> <b>Selecione um dos alunos a partir do GRR:</b>
 			<input disabled="" list="alunosList" name="myBrowser" id="alunosInput" class="form-select">
 			<datalist id="alunosList">
 				<option value="Carregue um arquivo"></option>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head>
+	<meta charset="UTF-8">
+	
+
+	<title>Context Menu Example</title>
+	<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=0.85">
+
+	<link rel="stylesheet" href="./style.css">
+
+
+	<title>Visualizeitor</title>
+
+	<script src="./jquery.min.js"></script>
+	<!--<script type="text/javascript" src="Canvas.js"></script> oncontextmenu="return false;" -->
+	<script type="text/javascript" src="./Alunos.js"></script>
+	<script type="text/javascript" src="./Materias.js"></script>
+	<script type="text/javascript" src="./utils.js"></script>
+
+	<style>
+		/* ------------------- tabela ------------------------ */
+		body {
+			margin: 0 auto;
+			/*zero de margen e centralizado automativamente*/
+			width: 90%;
+			/*Largura ocupando 90% da área total da tela em que a página será exibida*/
+		}
+
+		table tr td {
+			color: black;
+			text-align: center;
+			min-width: 80px !important;
+			z-index: 2 !important;
+		}
+
+		table th {
+			text-align: center;
+			background-color: var(--bs-primary) !important;
+			color: white;
+		}
+
+		table {
+			margin: auto;
+			margin-bottom: 20px;
+			max-width: auto;
+		}
+
+		.aprovado {
+			color: black !important;
+			background-color: rgb(185, 245, 185) !important;
+		}
+
+		.reprovado {
+			color: black !important;
+			background-color: rgb(248, 170, 170) !important;
+		}
+
+		.matriculado {
+			color: black !important;
+			background-color: rgb(176, 176, 243) !important;
+		}
+
+		.equivalencia {
+			color: black !important;
+			background-color: rgb(247, 247, 156) !important;
+		}
+
+		.trancamento {
+			color: black !important;
+			background-color: rgb(211, 206, 206) !important;
+		}
+
+		.celula {
+			cursor: pointer !important;
+			z-index: inherit;
+		}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgb(0, 0, 0);
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.modal-content {
+			background-color: #fefefe;
+			margin: 5%;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			top: 0;
+		}
+
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgb(0, 0, 0);
+			background-color: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(2px);
+		}
+
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			margin-top: 1% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			
+			
+		}
+
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		#menu {
+			background-color: rgb(245, 236, 218);
+			/*Cor de fundo branca*/
+			margin-top: 2%;
+			/*Margen superior com 1 pixel*/
+			float: left;
+			/*propriedade indicando que a Área flutuará a esquerda*/
+			width: 46%;
+			/*Ocupando 24% da largura total destinada para o corpo*/
+			height: 500px;
+			/*Altura de 500 pixels*/
+			align-self: center;
+			padding: 2%;
+			border-radius: 15px;
+		}
+
+		#tabelas {
+			background-color: white;
+			/*Cor de fundo branca*/
+			padding: 3px;
+			/*Margen interna de 3 pixels*/
+			float: right;
+			/*propriedade indicando que a Área flutuará a direita*/
+			margin-top: 1px;
+			/*Margen superior com 1 pixel*/
+			width: 52%;
+			/*Ocupando 74% da largura total destinada para o corpo*/
+
+		}
+	</style>
+</head>
+
+<body oncontextmenu="return false;">
+	<!-- Conteúdo principal (direita) -->
+	<section id="menu">
+		<h1>Visualizeitor</h1>
+
+		<!-- upload de arquivo -->
+		<form id="upload-arquivo" method="POST" enctype="multipart/form-data">
+			<label for="arquivo">Selecione o arquivo de alunos: </label>
+			<br>
+			<input id="arquivo" name="arquivo" type="file" accept=".xml">
+			<input type="submit" class="btn btn-primary" value="Carregar">
+
+		</form>
+		<!-- Seletor -->
+		<div class="col container" style="padding: 0;"></div>
+		<label>Selecione um dos alunos a partir do GRR:
+			<input disabled="" list="alunosList" name="myBrowser" id="alunosInput" class="form-select">
+			<datalist id="alunosList">
+				<option value="Carregue um arquivo"></option>
+			</datalist>
+			</input>
+
+		</label>
+		</div>
+
+
+
+		<div>
+			</br>
+			<div id="infoAluno" class="card" style="display: none; width: 100%;">
+				<div class="card-body">
+					<h5 class="card-title" id="nomeAluno"></h5>
+					<p class="card-text" id="detalhesAluno"></p>
+					<div id="optativasFaltantes">
+
+						<table class="d-none d-sm-block table table-bordered border-primary center">
+							<thead>
+								<h6>Disciplinas Optativas Faltantes: (se houver)</h6>
+							</thead>
+							<tbody id="optativas">
+								<!-- Linhas das disciplinas faltantes serão inseridas aqui -->
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<section id="tabelas">
+		<br>
+
+
+		<h2>Obrigatórias</h2>
+		<div class="context">
+			<table class="d-none d-sm-block table table-bordered border-primary">
+				<thead>
+					<tr>
+						<th>1º</th>
+						<th>2º</th>
+						<th>3º</th>
+						<th>4º</th>
+						<th>5º</th>
+						<th>6º</th>
+						<th>7º</th>
+						<th>8º</th>
+					</tr>
+				</thead>
+				<tbody id="obrigatorias">
+					<tr>
+						<td> CI068 </td>
+						<td> CI210 </td>
+						<td> CI212 </td>
+						<td> CI215 </td>
+						<td> CI162 </td>
+						<td> CI163 </td>
+						<td> CI221 </td>
+						<td> OPT 1</td>
+					</tr>
+					<tr>
+						<td> CI055 </td>
+						<td> CI056 </td>
+						<td> CI057 </td>
+						<td> CI062 </td>
+						<td> CI065 </td>
+						<td> CI165 </td>
+						<td> CI211 </td>
+						<td> OPT 2</td>
+					</tr>
+					<tr>
+						<td> CM046 </td>
+						<td> CI067 </td>
+						<td> CI064 </td>
+						<td> CE003 </td>
+						<td> CI059 </td>
+						<td> CI209 </td>
+						<td> OPT 3</td>
+						<td> OPT 4</td>
+					</tr>
+					<tr>
+						<td> CM045 </td>
+						<td> CM005 </td>
+						<td> CI237 </td>
+						<td> CI058 </td>
+						<td> CI061 </td>
+						<td> CI218 </td>
+						<td> OPT 5</td>
+						<td> OPT 6</td>
+					</tr>
+					<tr>
+						<td> CM201 </td>
+						<td> CM202 </td>
+						<td> CI166 </td>
+						<td> CI164 </td>
+						<td> SA214 </td>
+						<td> CI220 </td>
+						<td> TG I </td>
+						<td> TG II </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<br />
+
+		<h2>Outras Disciplinas</h2>
+		<table class="d-none d-sm-block table table-bordered border-primary">
+			<tbody id="outras"></tbody>
+		</table>
+
+
+
+
+
+		<!-- Modal -->
+		<div id="infoModal" class="modal">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<h2>Informações da Matéria</h2>
+				<div id="modalBody">
+					<!-- As informações da matéria aparecerão aqui -->
+				</div>
+			</div>
+		</div>
+
+
+
+	</section>
+
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+
+		const ALUNOS = new Alunos();
+		const OBRIGATORIAS = $("#obrigatorias");
+		const OUTRAS = $("#outras");
+		const OPTATIVAS = $("#optativas");
+		const LISTA_ALUNOS = $("#alunosList");
+		var MATERIAS = {};
+		var INPUT_ALUNOS = $("#alunosInput");
+
+		INPUT_ALUNOS[0].disabled = true;
+		INPUT_ALUNOS[0].value = "Carregue um arquivo";
+
+		desenhaGrade(OBRIGATORIAS, OUTRAS);
+		atualizaSeletor(LISTA_ALUNOS, ALUNOS);
+
+		// lê arquivo
+		$("#upload-arquivo").submit(function (e) {
+			e.preventDefault();
+			var file = document.getElementById("arquivo").files[0];
+			if (!file) return;
+			leArquivo(file, LISTA_ALUNOS, ALUNOS);
+			INPUT_ALUNOS[0].disabled = false;
+			INPUT_ALUNOS[0].value = "";
+		});
+
+		var file = document.getElementById("arquivo").files[0];
+
+		// Atualiza a grade de matérias quando selecionado um GRR
+		INPUT_ALUNOS.on('input', function (e) {
+			const grr = e.currentTarget.value;
+			if (grr == "")
+				return;
+
+			let aluno = ALUNOS.getAluno(grr)
+			if (aluno) {
+				MATERIAS = aluno["materias"];
+			} else {
+				MATERIAS = null;
+			}
+			desenhaGrade(OBRIGATORIAS, OUTRAS, MATERIAS);
+
+
+			if (aluno) {
+				document.getElementById('nomeAluno').textContent = aluno.nome_aluno;
+				document.getElementById('detalhesAluno').innerHTML = `
+            <strong>GRR:</strong> ${aluno.matr_aluno} <br>
+            <strong>Curso:</strong> ${aluno.nome_curso} <br>
+            <strong>Cod Curso:</strong> ${aluno.cod_curso} <br>
+            <strong>Id Curso Aluno:</strong> ${aluno.id_curso_aluno} <br>
+            <strong>Id Estrutura Curricular:</strong> ${aluno.id_estrutura_cur} <br>
+            <strong>Id Local Dispensa:</strong> ${aluno.id_local_dispensa} <br>
+            <strong>Id Versão Curso:</strong> ${aluno.id_versao_curso} <br>
+        `;
+				document.getElementById('infoAluno').style.display = 'block';
+				//geraTabelaOptativasrestantes(aluno.materias.optativas, OPTATIVAS);
+				geraTabelaOptativasrestantes(aluno.materias.optativas, OPTATIVAS);
+				if (Object.keys(aluno.materias.optativas).length > 6) {
+					//geraTabelaOptativasrestantes(aluno.materias.optativas, OPTATIVAS);
+				}
+			} else {
+				document.getElementById('infoAluno').style.display = 'none';
+			}
+
+		});
+
+
+
+
+
+
+
+
+
+		$(document).ready(function () {
+
+
+			function abrirModal(optativa, historico) {
+				let informacoes = `<p><strong>Matéria: </strong> ${optativa}</p>`;
+
+
+				// Verifica se historico é um array
+				if (Array.isArray(historico)) {
+					informacoes += `<p><strong>Histórico do aluno na disciplina: </strong></p>`;
+					informacoes += `<ul>`;
+					for (let materia of historico) {
+						informacoes += `<li>${materia.nome_ativ_curric} - ${materia.situacao} <br> (${materia.ano}/${materia.periodo})<br> Nota ${materia.media_final} <br> Frequência ${materia.frequencia}%</li>`;
+					}
+				}
+				// Verifica se historico é um objeto
+				else if (historico && typeof historico === 'object') {
+					informacoes += `<p><strong>Última atualização do aluno na disciplina: </strong></p>`;
+					informacoes += `<ul>`;
+					informacoes += `<li>${historico.nome_ativ_curric} - ${historico.situacao} (${historico.ano}/${historico.periodo}): Nota ${historico.media_final}, Frequência ${historico.frequencia}%</li>`;
+				}
+				// Caso contrário, adiciona uma mensagem de erro
+				else {
+					informacoes += `<li>Histórico indisponível ou inválido.</li>`;
+				}
+
+				informacoes += `</ul>`;
+				$('#modalBody').html(informacoes);
+				$('#infoModal').css('display', 'block');
+			}
+
+
+
+			function fecharModal() {
+				$('#infoModal').css('display', 'none');
+			}
+
+
+
+
+			$('.close').on('click', fecharModal);
+			$(window).on('click', function (event) {
+				if ($(event.target).is('#infoModal')) {
+					fecharModal();
+				}
+			});
+
+
+
+
+			$(document).on('mousedown', 'td', function (event) {
+				console.log('qual botão:', event.button);
+				const codigo = $(this).text().trim();
+				const grr = $('#alunosInput').val().trim();  // Certifique-se de que grr é o valor correto do aluno selecionado
+
+				console.log('Célula clicada:', codigo);
+
+				// Verifica se o aluno existe
+				if (ALUNOS.alunos[grr]) {
+					const aluno = ALUNOS.alunos[grr];
+
+					// Verifica se a matéria é obrigatória
+					if (aluno.materias.obrigatorias[codigo]) {
+						console.log('Matéria é obrigatória');
+						console.log('Histórico do aluno na disciplina:', aluno.materias.obrigatorias[codigo]);
+
+						if (event.button === 0) {
+							abrirModal(codigo, aluno.materias.obrigatorias[codigo]);
+						}
+						// Botão direito do mouse
+						else if (event.button === 2) {
+							abrirModal(codigo, aluno.materias.obrigatorias[codigo].at(-1));
+
+						}
+					}
+
+					// Verifica se a matéria é optativa
+					else if (aluno.materias.optativas[codigo]) {
+						console.log('Matéria é obrigatória');
+						console.log('Histórico do aluno na disciplina:', aluno.materias.optativas[codigo]);
+
+						if (event.button === 0) {
+							abrirModal(codigo, aluno.materias.optativas[codigo]);
+						}
+						// Botão direito do mouse
+						else if (event.button === 2) {
+							abrirModal(codigo, aluno.materias.optativas[codigo].at(-1));
+
+						}
+					}
+
+
+					// Verifica se o código é igual a "opt"
+					else if (codigo.match(/^OPT/)) {
+						console.log('Buscando matérias optativas cursadas pelo aluno:');
+						// Percorre todas as matérias optativas do aluno
+						var match = parseInt(codigo.match(/OPT\s*(\d+)/)[1]) - 1;
+						console.log(match);
+
+						//console.log('Histórico do aluno na disciplina:', aluno.materias.optativas);
+						var x = 0;
+						for (const optativa in aluno.materias.optativas) {
+							if (x == match) {
+								console.log('Matéria optativa:', optativa);
+								console.log('Histórico do aluno na disciplina:', aluno.materias.optativas[optativa]);
+								//abrirModal(optativa, aluno.materias.optativas[optativa]);
+								// Botão esquerdo do mouse
+								if (event.button === 0) {
+									abrirModal(optativa, aluno.materias.optativas[optativa]);
+								}
+								// Botão direito do mouse
+								else if (event.button === 2) {
+									abrirModal(optativa, aluno.materias.optativas[optativa].at(-1));
+
+								}
+							}
+							x = x + 1;
+						}
+					}
+					// Verifica se a matéria está em outras disciplinas
+					else if (aluno.materias.outras[codigo]) {
+						console.log('Matéria está em outras disciplinas');
+						console.log('Histórico do aluno na disciplina:', aluno.materias.outras[codigo]);
+						if (event.button === 0) {
+							abrirModal(codigo, aluno.materias.outras[codigo]);
+						}
+						// Botão direito do mouse
+						else if (event.button === 2) {
+							abrirModal(codigo, aluno.materias.outras[codigo].at(-1));
+
+						}
+					}
+					// Verifica se a matéria é TG1
+					else if (codigo === "TG I") {
+						console.log('Buscando matérias tg1 cursadas pelo aluno:');
+						// Percorre todas as matérias optativas do aluno
+						for (const optativa in aluno.materias.tg1) {
+							console.log('Matéria TGI:', optativa);
+							console.log('Histórico do aluno na disciplina:', aluno.materias.tg1[optativa]);
+							if (event.button === 0) {
+								abrirModal(optativa, aluno.materias.tg1[optativa]);
+							}
+							// Botão direito do mouse
+							else if (event.button === 2) {
+								abrirModal(optativa, aluno.materias.tg1[optativa].at(-1));
+
+							}
+						}
+					}
+					// Verifica se a matéria é TG2
+					else if (codigo === "TG II") {
+						console.log('Buscando matérias otg2 cursadas pelo aluno:');
+						// Percorre todas as matérias optativas do aluno
+						for (const optativa in aluno.materias.tg2) {
+							console.log('Matéria TGII:', optativa);
+							console.log('Histórico do aluno na disciplina:', aluno.materias.tg2[optativa]);
+							if (event.button === 0) {
+								abrirModal(codigo, aluno.materias.tg2[optativa]);
+							}
+							// Botão direito do mouse
+							else if (event.button === 2) {
+								abrirModal(optativa, aluno.materias.tg2[optativa].at(-1));
+							}
+						}
+
+					}
+					// Se não estiver em nenhum tipo específico de disciplina
+					else {
+						console.log('Matéria não encontrada');
+					}
+				}
+				// Se o aluno não existe
+				else {
+					console.log('Aluno não encontrado');
+				}
+
+
+				$('.close').on('click', fecharModal);
+				$(window).on('click', function (event) {
+					if ($(event.target).is('#infoModal')) {
+						fecharModal();
+					}
+				});
+			});
+
+
+
+
+
+		});
+
+
+
+		function WhichButton(event) {
+			let text = "You pressed button: " + event.button;
+			console.log(text);
+		}
+
+
+
+	</script>
+</body>
+
+</html>

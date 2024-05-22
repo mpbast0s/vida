@@ -426,14 +426,15 @@
 					informacoes += `<p><strong>Histórico do aluno na disciplina: </strong></p>`;
 					informacoes += `<ul>`;
 					for (let materia of historico) {
-						informacoes += `<li>${materia.nome_ativ_curric} - ${materia.situacao} <br> (${materia.ano}/${materia.periodo})<br> Nota ${materia.media_final} <br> Frequência ${materia.frequencia}%</li>`;
+						informacoes += `<li>${materia.nome_ativ_curric} - ${materia.situacao} (${materia.ano}/${materia.periodo}): Nota ${materia.media_final}, Frequência ${materia.frequencia}%</li>`;
 					}
 				}
 				// Verifica se historico é um objeto
 				else if (historico && typeof historico === 'object') {
 					informacoes += `<p><strong>Última atualização do aluno na disciplina: </strong></p>`;
 					informacoes += `<ul>`;
-					informacoes += `<li>${historico.nome_ativ_curric} - ${historico.situacao} (${historico.ano}/${historico.periodo}): Nota ${historico.media_final}, Frequência ${historico.frequencia}%</li>`;
+					informacoes += `<li>${historico.nome_ativ_curric} - ${historico.situacao} <br> (${historico.ano}/${historico.periodo}) <br> Nota ${historico.media_final}<br> Frequência ${historico.frequencia}%</li>`;
+					
 				}
 				// Caso contrário, adiciona uma mensagem de erro
 				else {
@@ -550,15 +551,18 @@
 					else if (codigo === "TG I") {
 						console.log('Buscando matérias tg1 cursadas pelo aluno:');
 						// Percorre todas as matérias optativas do aluno
+						
 						for (const optativa in aluno.materias.tg1) {
 							console.log('Matéria TGI:', optativa);
 							console.log('Histórico do aluno na disciplina:', aluno.materias.tg1[optativa]);
 							if (event.button === 0) {
-								abrirModal(optativa, aluno.materias.tg1[optativa]);
+								//abrirModal(optativa, aluno.materias.tg1[optativa]);
+								abrirModal(optativa, aluno.materias.tg1);
 							}
 							// Botão direito do mouse
 							else if (event.button === 2) {
-								abrirModal(optativa, aluno.materias.tg1[optativa].at(-1));
+								//abrirModal(optativa, aluno.materias.tg1[optativa].at(-1));
+								abrirModal(optativa, aluno.materias.tg1[optativa]);
 
 							}
 						}
@@ -571,11 +575,14 @@
 							console.log('Matéria TGII:', optativa);
 							console.log('Histórico do aluno na disciplina:', aluno.materias.tg2[optativa]);
 							if (event.button === 0) {
-								abrirModal(codigo, aluno.materias.tg2[optativa]);
+								//abrirModal(optativa, aluno.materias.tg1[optativa]);
+								abrirModal(optativa, aluno.materias.tg2);
 							}
 							// Botão direito do mouse
 							else if (event.button === 2) {
-								abrirModal(optativa, aluno.materias.tg2[optativa].at(-1));
+								//abrirModal(optativa, aluno.materias.tg1[optativa].at(-1));
+								abrirModal(optativa, aluno.materias.tg2[optativa]);
+
 							}
 						}
 

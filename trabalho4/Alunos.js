@@ -40,13 +40,7 @@ class Alunos {
     // adiciona a matéria do aluno
     this.alunos[matr_aluno]["materias"].insere(materia);
   }
-  // Imprime no console.log os dados dos alunos
-  imprime() {
-    for (let key of Object.keys(this.alunos)) {
-      console.log(this.alunos[key]);
-      this.alunos[key]["materias"].imprime();
-    }
-  }
+ 
   // "Apaga" os alunos salvos
   limpa() {
     this.alunos = {};

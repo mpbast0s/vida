@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	
+
 
 	<title>Atividade 4 </title>
 	<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -138,8 +138,8 @@
 			padding: 20px;
 			border: 1px solid #888;
 			width: 80%;
-			
-			
+
+
 		}
 
 		.close {
@@ -385,15 +385,18 @@
 
 			if (aluno) {
 				document.getElementById('nomeAluno').textContent = aluno.nome_aluno;
+				/*document.getElementById('detalhesAluno').innerHTML = `
+			<strong>GRR:</strong> ${aluno.matr_aluno} <br>
+			<strong>Curso:</strong> ${aluno.nome_curso} <br>
+			<strong>Cod Curso:</strong> ${aluno.cod_curso} <br>
+			<strong>Id Curso Aluno:</strong> ${aluno.id_curso_aluno} <br>
+			<strong>Id Estrutura Curricular:</strong> ${aluno.id_estrutura_cur} <br>
+			<strong>Id Local Dispensa:</strong> ${aluno.id_local_dispensa} <br>
+			<strong>Id Versão Curso:</strong> ${aluno.id_versao_curso} <br> 
+		`; */
 				document.getElementById('detalhesAluno').innerHTML = `
             <strong>GRR:</strong> ${aluno.matr_aluno} <br>
-            <strong>Curso:</strong> ${aluno.nome_curso} <br>
-            <strong>Cod Curso:</strong> ${aluno.cod_curso} <br>
-            <strong>Id Curso Aluno:</strong> ${aluno.id_curso_aluno} <br>
-            <strong>Id Estrutura Curricular:</strong> ${aluno.id_estrutura_cur} <br>
-            <strong>Id Local Dispensa:</strong> ${aluno.id_local_dispensa} <br>
-            <strong>Id Versão Curso:</strong> ${aluno.id_versao_curso} <br>
-        `;
+            <strong>Curso:</strong> ${aluno.nome_curso} <br>`
 				document.getElementById('infoAluno').style.display = 'block';
 				//geraTabelaOptativasrestantes(aluno.materias.optativas, OPTATIVAS);
 				geraTabelaOptativasrestantes(aluno.materias.optativas, OPTATIVAS);
@@ -418,23 +421,23 @@
 
 
 			function abrirModal(optativa, historico) {
-				let informacoes = `<p><strong>Matéria: </strong> ${optativa}</p>`;
+				let informacoes = `< p > <strong>Matéria: </strong> ${optativa}</p > `;
 
 
 				// Verifica se historico é um array
 				if (Array.isArray(historico)) {
-					informacoes += `<p><strong>Histórico do aluno na disciplina: </strong></p>`;
-					informacoes += `<ul>`;
+					informacoes += `< p > <strong>Histórico do aluno na disciplina: </strong></p > `;
+					informacoes += `< ul > `;
 					for (let materia of historico) {
-						informacoes += `<li>${materia.nome_ativ_curric} - ${materia.situacao} (${materia.ano}/${materia.periodo}): Nota ${materia.media_final}, Frequência ${materia.frequencia}%</li>`;
+						informacoes += `< li > ${materia.nome_ativ_curric} - ${materia.situacao} (${materia.ano} /${materia.periodo}): Nota ${materia.media_final}, Frequência ${materia.frequencia}%</li > `;
 					}
 				}
 				// Verifica se historico é um objeto
 				else if (historico && typeof historico === 'object') {
-					informacoes += `<p><strong>Última atualização do aluno na disciplina: </strong></p>`;
-					informacoes += `<ul>`;
-					informacoes += `<li>${historico.nome_ativ_curric} - ${historico.situacao} <br> (${historico.ano}/${historico.periodo}) <br> Nota ${historico.media_final}<br> Frequência ${historico.frequencia}%</li>`;
-					
+					informacoes += `< p > <strong>Última atualização do aluno na disciplina: </strong></p > `;
+					informacoes += `< ul > `;
+					informacoes += `< li > ${historico.nome_ativ_curric} - ${historico.situacao} <br> (${historico.ano}/${historico.periodo}) <br> Nota ${historico.media_final}<br> Frequência ${historico.frequencia}%</li>`;
+
 				}
 				// Caso contrário, adiciona uma mensagem de erro
 				else {

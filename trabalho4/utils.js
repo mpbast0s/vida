@@ -30,7 +30,14 @@ function geraTabelaOptativasrestantes(outras_materias, optativas) {
     for (; i * 4 + j < num_chaves && j < 4; j++) {
       let cod_mat = chaves[i * 4 + j];
       l_materias = outras_materias[cod_mat];
-      let classe = classeMateria(l_materias.at(-1).sigla);
+      let classe;
+      if(l_materias.at(-1).sigla == "Disp. c/nt"){
+        classe = "dispensa";
+      } else if(l_materias.at(-1).sigla == "Cancelado"){
+        classe = "cancelado"
+      } else {
+        classe = classeMateria(l_materias.at(-1).sigla);
+      }
       let id = l_materias.at(-1).cod_ativ_curric;
       codigo += `<td class="optativas ${classe} celula" id="${id}"> ${id} </td>`;
     }
@@ -123,8 +130,18 @@ function geraCelulaObrig(codigo, materias) {
       classe = "obrigatorias ";
   }
   if (l_materias != null && l_materias.length > 0) {
-    classe += classeMateria(l_materias.at(-1).sigla);
+    //classe += classeMateria(l_materias.at(-1).sigla);
+    if(l_materias.at(-1).sigla == "Disp. c/nt"){
+      classe += "dispensa";
+    } else if(l_materias.at(-1).sigla == "Cancelado"){
+      classe += "cancelado"
+    } else if(l_materias.at(-1).sigla == "TrancAdm"){
+      classe += "trancadm"
+    } else {
+      classe += classeMateria(l_materias.at(-1).sigla);
+    }
     let id = classe == "" ? "" : l_materias.at(-1).cod_ativ_curric;
+
     return `<td class="${classe} celula" id="${id}" style="z-index:2;"> ${codigo} </td>`;
   }
   return `<td> ${codigo} </td>`;
@@ -148,8 +165,19 @@ function geraTabelaOutras(outras_materias) {
     for (; i * 8 + j < num_chaves && j < 8; j++) {
       let cod_mat = chaves[i * 8 + j];
       l_materias = outras_materias[cod_mat];
-      let classe = classeMateria(l_materias.at(-1).sigla);
+      let classe;
+      if(l_materias.at(-1).sigla == "Disp. c/nt"){
+        classe = "dispensa";
+      } else if(l_materias.at(-1).sigla == "Cancelado"){
+        classe = "cancelado"
+      } else if(l_materias.at(-1).sigla == "TrancAdm"){
+        classe = "trancadm"
+      } else {
+        classe = classeMateria(l_materias.at(-1).sigla);
+      }
+      
       let id = l_materias.at(-1).cod_ativ_curric;
+
       codigo += `<td class="outras ${classe} celula" id="${id}"> ${id} </td>`;
     }
     // Colspan se sobrarem colunas para manter o formato da tabela

@@ -51,6 +51,12 @@
 			max-width: auto;
 		}
 
+		.celula {
+			cursor: pointer !important;
+			background-color: rgb(199, 146, 190) !important;
+			z-index: inherit;
+		}
+
 		.aprovado {
 			color: black !important;
 			background-color: rgb(185, 245, 185) !important;
@@ -76,10 +82,22 @@
 			background-color: rgb(211, 206, 206) !important;
 		}
 
-		.celula {
-			cursor: pointer !important;
-			z-index: inherit;
+		.dispensa {
+			color: black !important;
+			background-color: rgb(139, 184, 130) !important;
 		}
+
+		.cancelado {
+			color: black !important;
+			background-color:  rgb(201, 80, 80) !important;
+		}
+
+		.trancadm {
+			color: black !important;
+			background-color: rgb(160, 144, 144) !important;
+		}
+
+		
 
 		.modal {
 			display: none;
@@ -194,12 +212,13 @@
 		<h1>Visualizeitor</h1>
 		<h6>Visualizador de matérias por alunos, feito por: Maria Paula Bastos - 20212762</h6>
 		<p style="font-size:12px">
-
 			O objetivo do projeto é desenvolver um aplicativo web usando HTML, JavaScript e jQuery para visualizar a
 			grade curricular de alunos de qualquer curso. As características
 			específicas de cada disciplina foram coloridas com base na
-			situação da última matrícula do aluno (aprovado em verde, reprovado em vermelho, matriculado em azul,
-			equivalência em amarelo, não cursado em branco e em cinza trancado).
+			situação da última matrícula do aluno (aprovado em verde (dispensado: cor mais escura), reprovado em
+			vermelho (cancelado: cor mais escura), matriculado em azul,
+			equivalência em amarelo, não cursado em branco, em cinza trancado (trancamento adm: cor mais escura)) 
+			e em roxo quando a sigla não foi definida.
 		<ul style="font-size:12px">
 			<li> Ao clicar com o botão esquerdo, aparece os dados da última vez que cursou a disciplina</li>
 			<li>Quando o usuário clicar no botão direito, deve aparecer todo o histórico do aluno *naquela disciplina*.

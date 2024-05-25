@@ -70,4 +70,17 @@ class Materias {
     }
   }
 
+  arredondaNumero(numeroTexto, casasDecimais) {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
+    var numero = parseFloat(numeroTexto.replace(',', '.'));
+    
+    // Arredonda o número para a quantidade especificada de casas decimais
+    var numeroArredondado = numero.toFixed(casasDecimais);
+    
+    // Converte o número arredondado de volta para string e substitui o ponto por vírgula
+    var numeroComVirgula = numeroArredondado.replace('.', ',');
+    
+    return numeroComVirgula;
+  }
+
 }

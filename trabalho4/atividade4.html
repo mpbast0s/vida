@@ -381,7 +381,9 @@
 		const OUTRAS = $("#outras");
 		const OPTATIVAS = $("#optativas");
 		const LISTA_ALUNOS = $("#alunosList");
+		const MATERIAS_M = new Materias();
 		var MATERIAS = {};
+		console.log(MATERIAS_M.arredondaNumero("93,333333333333333334", 2)); // "93,33"
 		var INPUT_ALUNOS = $("#alunosInput");
 
 		INPUT_ALUNOS[0].disabled = true;
@@ -460,17 +462,20 @@
 
 				// Verifica se historico é um array
 				if (Array.isArray(historico)) {
-					informacoes += `<p><strong>Histórico do aluno na disciplina: </strong></p>`;
+					informacoes += `<p><i><strong>Histórico do aluno na disciplina: </strong></i></p>`;
 					informacoes += `<ul>`;
 					for (let materia of historico) {
-						informacoes += `<li>${materia.nome_ativ_curric} - ${materia.situacao} (${materia.ano}/${materia.periodo}): Nota ${materia.media_final}, Frequência ${materia.frequencia}%</li>`;
+						informacoes += `<li>${materia.nome_ativ_curric} -  <b> ${materia.situacao}</b> (${materia.ano}/${materia.periodo}): 
+							<b> Nota: </b> ${MATERIAS_M.arredondaNumero(materia.media_final, 2)}, <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(materia.frequencia,2)}%</li>`;
+							//MATERIAS_M.arredondaNumero("93,333333333333333334", 2)
 					}
 				}
 				// Verifica se historico é um objeto
 				else if (historico && typeof historico === 'object') {
-					informacoes += `<p><strong>Última atualização do aluno na disciplina: </strong></p>`;
+					informacoes += `<p><strong><i>Última atualização do aluno na disciplina: </i></strong></p>`;
 					informacoes += `<ul>`;
-					informacoes += `<li>${historico.nome_ativ_curric} - ${historico.situacao} <br> (${historico.ano}/${historico.periodo}) <br> Nota ${historico.media_final}<br> Frequência ${historico.frequencia}%</li>`;
+					informacoes += `<li>${historico.nome_ativ_curric} - <b> ${historico.situacao}</b> <br> (${historico.ano}/${historico.periodo}) <br> 
+						<b>Nota:</b> ${MATERIAS_M.arredondaNumero(historico.media_final, 2)}<br> <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(historico.frequencia, 2)}%</li>`;
 
 				}
 				// Caso contrário, adiciona uma mensagem de erro
@@ -648,6 +653,8 @@
 
 
 		});
+
+		
 
 
 

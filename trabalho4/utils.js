@@ -73,7 +73,7 @@ function lefile(file, input, alunos) {
       }
     }
     atualizaSeletor(input, alunos);
-    alunos.ordena();
+    alunos.arruma();
   };
 }
 

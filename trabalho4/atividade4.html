@@ -89,7 +89,7 @@
 
 		.cancelado {
 			color: black !important;
-			background-color:  rgb(201, 80, 80) !important;
+			background-color: rgb(201, 80, 80) !important;
 		}
 
 		.trancadm {
@@ -97,7 +97,7 @@
 			background-color: rgb(160, 144, 144) !important;
 		}
 
-		
+
 
 		.modal {
 			display: none;
@@ -217,7 +217,7 @@
 			específicas de cada disciplina foram coloridas com base na
 			situação da última matrícula do aluno (aprovado em verde (dispensado: cor mais escura), reprovado em
 			vermelho (cancelado: cor mais escura), matriculado em azul,
-			equivalência em amarelo, não cursado em branco, em cinza trancado (trancamento adm: cor mais escura)) 
+			equivalência em amarelo, não cursado em branco, em cinza trancado (trancamento adm: cor mais escura))
 			e em roxo quando a sigla não foi definida.
 		<ul style="font-size:12px">
 			<li> Ao clicar com o botão esquerdo, aparece os dados da última vez que cursou a disciplina</li>
@@ -392,17 +392,24 @@
 		desenhaGrade(OBRIGATORIAS, OUTRAS);
 		atualizaSeletor(LISTA_ALUNOS, ALUNOS);
 
+
 		// lê arquivo
+		
 		$("#upload-arquivo").submit(function (e) {
 			e.preventDefault();
 			var file = document.getElementById("arquivo").files[0];
+			//var file = "./alunos.xml"
+			console.log(file)
+			//file = "alunos.xml"
 			if (!file) return;
 			lefile(file, LISTA_ALUNOS, ALUNOS);
 			INPUT_ALUNOS[0].disabled = false;
 			INPUT_ALUNOS[0].value = "";
 		});
+		
 
 		var file = document.getElementById("arquivo").files[0];
+
 
 		// Atualiza a grade de matérias quando selecionado um GRR
 		INPUT_ALUNOS.on('input', function (e) {
@@ -466,8 +473,8 @@
 					informacoes += `<ul>`;
 					for (let materia of historico) {
 						informacoes += `<li>${materia.nome_ativ_curric} -  <b> ${materia.situacao}</b> (${materia.ano}/${materia.periodo}): 
-							<b> Nota: </b> ${MATERIAS_M.arredondaNumero(materia.media_final, 2)}, <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(materia.frequencia,2)}%</li>`;
-							//MATERIAS_M.arredondaNumero("93,333333333333333334", 2)
+							<b> Nota: </b> ${MATERIAS_M.arredondaNumero(materia.media_final, 2)}, <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(materia.frequencia, 2)}%</li>`;
+						//MATERIAS_M.arredondaNumero("93,333333333333333334", 2)
 					}
 				}
 				// Verifica se historico é um objeto
@@ -654,7 +661,7 @@
 
 		});
 
-		
+
 
 
 

@@ -1,4 +1,4 @@
-// Arquivo auxiliar para o index.html
+// file auxiliar para o index.html
 
 // Lista de matérias do curso de BCC
 const MATERIAS_BCC = [
@@ -52,9 +52,9 @@ function geraTabelaOptativasrestantes(outras_materias, optativas) {
 }
 
 // Função para ler um arquivo XML
-function leArquivo(arquivo, input, alunos) {
+function lefile(file, input, alunos) {
   var reader = new FileReader();
-  reader.readAsText(arquivo);
+  reader.readAsText(file);
 
   reader.onloadend = function () {
     parser = new DOMParser();

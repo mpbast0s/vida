@@ -397,7 +397,7 @@
 			e.preventDefault();
 			var file = document.getElementById("arquivo").files[0];
 			if (!file) return;
-			leArquivo(file, LISTA_ALUNOS, ALUNOS);
+			lefile(file, LISTA_ALUNOS, ALUNOS);
 			INPUT_ALUNOS[0].disabled = false;
 			INPUT_ALUNOS[0].value = "";
 		});
@@ -457,7 +457,7 @@
 
 
 			function abrirModal(optativa, historico) {
-				let informacoes = `<p><strong>Matéria: </strong> ${optativa}</p>`;
+				let informacoes = `<p><strong>Matéria: </strong> ${optativa} </p>`;
 
 
 				// Verifica se historico é um array
@@ -473,9 +473,9 @@
 				// Verifica se historico é um objeto
 				else if (historico && typeof historico === 'object') {
 					informacoes += `<p><strong><i>Última atualização do aluno na disciplina: </i></strong></p>`;
-					informacoes += `<ul>`;
-					informacoes += `<li>${historico.nome_ativ_curric} - <b> ${historico.situacao}</b> <br> (${historico.ano}/${historico.periodo}) <br> 
-						<b>Nota:</b> ${MATERIAS_M.arredondaNumero(historico.media_final, 2)}<br> <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(historico.frequencia, 2)}%</li>`;
+					informacoes += ``;
+					informacoes += `${historico.nome_ativ_curric} <br> <b> ${historico.situacao}</b> <br> (${historico.ano}/${historico.periodo}) <br> 
+						<b>Nota:</b> ${MATERIAS_M.arredondaNumero(historico.media_final, 2)}<br> <b>Frequência: </b> ${MATERIAS_M.arredondaNumero(historico.frequencia, 2)}%`;
 
 				}
 				// Caso contrário, adiciona uma mensagem de erro

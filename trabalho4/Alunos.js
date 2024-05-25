@@ -59,11 +59,11 @@ class Alunos {
   }
 
   // ordenar as matérias dos alunos de acordo com semestre/ano cursado
-  ordena() {
+  arruma() {
     console.log("aluno - AAAAAAAAAAAAA");
     const listaGRR = this.getGRRs();
     for (let grr of listaGRR) {
-      this.alunos[grr]["materias"].ordena();
+      this.alunos[grr]["materias"].arruma();
     }
   }
 

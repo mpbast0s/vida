@@ -47,25 +47,25 @@ class Materias {
     materias[atividade].push(dados);
   }
 
-  // Função para ordenar cada matéria de uma categoria
-  ordenaCategoria(categoria) {
+  // Função para arrumar cada matéria de uma categoria
+  arrumaCategoria(categoria) {
     categoria.sort(function (a, b) {
-      var diff = parseInt(a.ano) - parseInt(b.ano); // Ordena pelo ano
+      var diff = parseInt(a.ano) - parseInt(b.ano); // arruma pelo ano
       if (diff == 0) {
-        diff = parseInt(a.periodo[0]) - parseInt(b.periodo[0]); // Se o ano for o mesmo, ordena pelo período
+        diff = parseInt(a.periodo[0]) - parseInt(b.periodo[0]); // Se o ano for o mesmo, arruma pelo período
       }
       return diff;
     })
 
   }
 
-  // Ordena todas as matérias armazenadas
-  ordena() {
-    let lista_ordena = [this.obrigatorias, this.optativas, this.outras];
-    for (let item of lista_ordena) {
+  // arruma todas as matérias armazenadas
+  arruma() {
+    let lista_arruma = [this.obrigatorias, this.optativas, this.outras];
+    for (let item of lista_arruma) {
       const cod_materias = Object.keys(item);
       for (let materia of cod_materias) {
-        this.ordenaCategoria(item[materia]);
+        this.arrumaCategoria(item[materia]);
       }
     }
   }
